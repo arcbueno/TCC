@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\arcbu\\Documents\\Pessoal\\TCC\\Codigo\\JetpackStudies\\MyToDo\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v28\\values-v28.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\arcbu\\.gradle\\caches\\transforms-2\\files-2.1\\bc2d995c0f89044f5647a8c43fc566fe\\material-1.2.0\\res\\values-v28\\values-v28.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,143,231,319,407,494,581,668",
+                        "endColumns": "87,87,87,87,86,86,86,86",
+                        "endOffsets": "138,226,314,402,489,576,663,750"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\arcbu\\.gradle\\caches\\transforms-2\\files-2.1\\36da28ca46b15e3d2ced0cf403a18441\\appcompat-1.2.0\\res\\values-v28\\values-v28.xml",
+                    "from": {
+                        "startLines": "2,3,4,8",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,130,217,447",
+                        "endLines": "2,3,7,11",
+                        "endColumns": "74,86,12,12",
+                        "endOffsets": "125,212,442,684"
+                    },
+                    "to": {
+                        "startLines": "10,11,12,16",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "755,830,917,1147",
+                        "endLines": "10,11,15,19",
+                        "endColumns": "74,86,12,12",
+                        "endOffsets": "825,912,1142,1384"
+                    }
+                }
+            ]
+        }
+    ]
+}
