@@ -1,5 +1,7 @@
-package androidtest;
+package flutterTest;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 
 import io.appium.java_client.AppiumDriver;
@@ -15,33 +17,28 @@ public class UpdateToDo {
         this.driver = driver;
     }
 
-    // input properties
-    // @AndroidFindBy(id = "fab_add")
-    // private static MobileElement addButton;
-
-    @AndroidFindBy(id = "update_todo_title")
+    @AndroidFindBy(xpath = "//*[@class='android.widget.EditText' and @index='1']")
     private static MobileElement titleUpdate;
 
-    @AndroidFindBy(id = "update_todo_text")
+    @AndroidFindBy(xpath = "//*[@class='android.widget.EditText' and @index='2']")
     private static MobileElement bodyUpdate;
 
-    @AndroidFindBy(id = "fab_save")
+    @AndroidFindBy(xpath = "//*[@class='android.widget.Button' and @index='3']")
     private static MobileElement updateTodoButton;
 
-    @AndroidFindBy(id = "fab_delete")
+    @AndroidFindBy(xpath = "//*[@class='android.widget.Button' and @index='2']")
     private static MobileElement deleteTodoButton;
 
-    public static void update() {
-        // addButton.click();
-        titleUpdate.setValue("teste123updated");
-        bodyUpdate.setValue("teste1232updated");
+    public void update() {
+        driver.findElements(By.xpath("//*[@class='android.widget.EditText']")).get(0).click();
+        Actions action = new Actions(driver);
+        action.sendKeys("updated").perform();
+        driver.findElements(By.xpath("//*[@class='android.widget.EditText']")).get(1).click();
+        action.sendKeys("updated").perform();
         updateTodoButton.click();
     }
 
-    public static void delete() {
-        // addButton.click();
-        // titleUpdate.setValue("teste123updated");
-        // bodyUpdate.setValue("teste1232updated");
+    public void delete() {
         deleteTodoButton.click();
     }
 

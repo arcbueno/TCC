@@ -1,4 +1,4 @@
-package androidtest;
+package flutterTest;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,6 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.interactions.internal.Coordinates;
+import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -31,86 +35,78 @@ public class App {
     private static NewToDo newToDo;
     private static UpdateToDo updateToDo;
 
-    public static void main(String[] args) throws Exception {
-
+    public static void main(String[] args) throws MalformedURLException, Exception {
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        Constants constants = new Constants();
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, constants.DEVICE_NAME);
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "API 29 Strikes Again");
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-        capabilities.setCapability(MobileCapabilityType.APP, new File(constants.FILE_PATH));
+        capabilities.setCapability("unicodeKeyboard", false);
+        capabilities.setCapability("resetKeyboard", false);
+        capabilities.setCapability(MobileCapabilityType.APP,
+                new File("C:\\Users\\arcbu\\Documents\\Pessoal\\TCC\\Codigo\\APKs\\MyToDoFlutter.apk"));
         androidDriver = new AndroidDriver<MobileElement>(new URL("http://localhost:4723/wd/hub"), capabilities);
         newToDo = new NewToDo(androidDriver);
         updateToDo = new UpdateToDo(androidDriver);
 
-        myWriter = new FileWriter("android20.json");
+        myWriter = new FileWriter("resultadosFlutter.json");
 
         // Descomente qual função você quer rodar
         // Lembre-se de alterar o número de repetições
 
-        create();
+        // create();
 
         // update();
 
         // delete();
 
+        System.out.println("Teste finalizado. Verifique o arquivo resultadosFlutter.json.");
+
     }
 
-    static void create() throws Exception {
+    private static void create() throws Exception {
         for (int i = 0; i < repeticoes; i++) {
             NewToDo.create();
             getPerformanceAndExports(androidDriver, myWriter, i);
         }
     }
 
-    static void update() throws Exception {
-
+    private static void update() throws Exception {
         for (int i = 0; i < repeticoes; i++) {
             NewToDo.create();
         }
 
         for (int i = 0; i < repeticoes; i++) {
 
-            if (i == 0) {
-                androidDriver.findElement(By.xpath(
-                        "//*[@class='android.widget.GridLayout' and @index='" + 0 + "']/android.widget.TextView"))
-                        .click();
+            String elementXpath = "//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View";
 
-            } else {
+            androidDriver.findElements(By.xpath(elementXpath)).get(i).click();
 
-                androidDriver.findElements(By.id("list_item_layout")).get(i).findElement(By.id("item_text_id")).click();
-            }
-
-            UpdateToDo.update();
+            updateToDo.update();
             getPerformanceAndExports(androidDriver, myWriter, i);
         }
-
     }
 
-    static void delete() throws Exception {
-
+    private static void delete() throws Exception {
         for (int i = 0; i < repeticoes; i++) {
             NewToDo.create();
         }
 
         for (int i = 0; i < repeticoes; i++) {
 
-            androidDriver
-                    .findElement(By.xpath(
-                            "//*[@class='android.widget.GridLayout' and @index='" + 0 + "']/android.widget.TextView"))
-                    .click();
+            String elementXpath = "//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View";
 
-            UpdateToDo.delete();
+            androidDriver.findElements(By.xpath(elementXpath)).get(0).click();
+
+            updateToDo.delete();
             getPerformanceAndExports(androidDriver, myWriter, i);
         }
-
     }
 
     private static void getPerformanceAndExports(AndroidDriver<MobileElement> driver, FileWriter myWriter, int position)
             throws Exception {
 
-        List<List<Object>> data = driver.getPerformanceData("com.arcbueno.mytodo", "memoryinfo", 5);
+        List<List<Object>> data = driver.getPerformanceData("com.example.MyToDoFlutter", "memoryinfo", 5);
 
         HashMap<String, Integer> readableData = new HashMap<String, Integer>();
         for (int i = 0; i < data.get(0).size(); i++) {
@@ -124,27 +120,12 @@ public class App {
         }
         HashMap<String, String> finalData = new HashMap<String, String>();
 
-        finalData.put("\"updateNumber\"", Integer.toString(position + 1));
+        finalData.put("\"actionNumber\"", Integer.toString(position + 1));
         finalData.put("\"totalPss\"", readableData.get("totalPss").toString());
         finalData.put("\"totalPrivateDirty\"", readableData.get("totalPrivateDirty").toString());
 
         myWriter.write(finalData.toString().replace("=", ":"));
         myWriter.write(",");
-    }
-
-    private static void scroll(AndroidDriver<MobileElement> driver, int position) throws InterruptedException {
-
-        Dimension size = driver.manage().window().getSize();
-
-        int width = size.width / 2;
-
-        int startPoint = (int) (size.getHeight() * 0.40);
-        int endPoint = (int) (size.getHeight() * 0.30);
-
-        new TouchAction(driver).press(PointOption.point(width, startPoint))
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(2000))).moveTo(PointOption.point(width, endPoint))
-                .release().perform();
-
     }
 
 }
