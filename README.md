@@ -1,9 +1,9 @@
 # Trabalho de conclusão de curso - Pedro Bueno
-# Conclusion course project - Pedro Bueno
+## Conclusion course project - Pedro Bueno
 
 ## Repositório para armazenar códigos das aplicações criadas para o TCC
-## Repository for storage all code from the applications created for the project
-English at the final
+ Repository for storage all code from the applications created for the project
+English at the end
 
 #### Scripts
 
